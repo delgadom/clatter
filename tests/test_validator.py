@@ -85,7 +85,7 @@ def test_validator():
         Pining for the fjords
         <BLANKLINE>
 
-    Pipes don't work, so we can't redirect this value into a file. But we can 
+    Pipes don't work, so we can't redirect this value into a file. But we can
     write a file with python:
 
     .. code-block:: bash
@@ -121,7 +121,7 @@ def test_validator():
 
     os.remove('tmp.txt')
 
-    
+
 def test_skipper():
 
     skipstr = '''

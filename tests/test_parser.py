@@ -8,7 +8,7 @@ def test_parser_1():
     test = r'''
     .. code-block:: bash
 
-        $ echo "my string" 
+        $ echo "my string"
         ['echo', 'my string']
 
     '''
@@ -54,11 +54,11 @@ def test_parser_2():
         (
             'Traceback (most recent call last):'\
             '\n...\n'\
-            'ERROR: file not found: test_nonexistant.py'), 
+            'ERROR: file not found: test_nonexistant.py'),
         12)
 
     assert next(parser) == expected
-    
+
     assert next(parser) == (
         [
             'pytest',

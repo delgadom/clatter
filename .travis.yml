@@ -68,7 +68,7 @@ deploy:
   on:
     branch: master
     distributions: sdist bdist_wheel
-    repo: ClimateImpactLab/clatter
+    repo: delgadom/clatter
 
 services:
   - docker

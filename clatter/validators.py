@@ -5,14 +5,14 @@ from click.testing import CliRunner
 
 
 class CommandValidator(object):
-    
+
     def validate(self, command, args, expected, options):
 
         if (options & doctest.SKIP):
             return
 
         stdout, stderr = self.run_command(command, args, expected, options)
-        
+
         checker = doctest.OutputChecker()
 
         if checker.check_output(expected, stdout, options):
@@ -20,12 +20,13 @@ class CommandValidator(object):
 
         if checker.check_output(expected, stderr, options):
             return
-        
+
         msg = 'Clatter test failed. {0} != {1}\n\n+ {0}\n- {1}'.format(
             (stdout if stdout else stderr),
             expected)
-        
+
         raise ValueError(msg)
+
 
 class ClickValidator(CommandValidator):
 

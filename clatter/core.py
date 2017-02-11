@@ -2,6 +2,7 @@ import shlex
 import re
 import doctest
 
+
 class Runner(object):
 
     def __init__(self, call_engines=None, default=None):
@@ -25,10 +26,9 @@ class Runner(object):
                     r'(\$[\ \t]+)'
                     r'(?P<cmd>[^\r\n\\]+(\\[\ \t]*\n[^\n\\]*)*)'
                     r'(?P<res>((\r\n|\n)\ +[^\$\>\s][^\r\n\\]*)'
-                        r'*(\\[\ \t]*(\r\n|\n)\g<space>[^\r\n\\]+)*)'
+                    r'*(\\[\ \t]*(\r\n|\n)\g<space>[^\r\n\\]+)*)'
                 ), string)):
 
-            space = parsed.group('space')
             command = parsed.group('cmd')
             expected = parsed.group('res')
 
@@ -36,7 +36,7 @@ class Runner(object):
                 expected = ''
 
             formatted = ''.join(re.split(
-                r'\\[\ \t]*(\r\n|\n)[\ \t]*>',command))
+                r'\\[\ \t]*(\r\n|\n)[\ \t]*>', command))
 
             args = shlex.split(formatted, comments=True)
             args_comment = shlex.split(formatted, comments=False)
@@ -66,7 +66,6 @@ class Runner(object):
 
             yield args, expected, options
 
-
     def validate(self, command):
         '''
         Checks the result of running command against expected output
@@ -75,13 +74,14 @@ class Runner(object):
         for command, expected, options in self._parse_cli_statement(command):
 
             if command[0] not in self.call_engines:
-                raise ValueError('Command "{}" not allowed. Add command caller to call_engines to whitelist.'.format(command[0]))
+                raise ValueError(
+                    'Command "{}" not allowed. '.format(command[0]) +
+                    'Add command caller to call_engines to whitelist.')
 
             call_engine = self.call_engines[command[0]]
 
-            result = call_engine.validate(
+            call_engine.validate(
                 command=command[0],
                 args=command[1:],
                 expected=expected,
                 options=options)
-

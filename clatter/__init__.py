@@ -1,2 +1,15 @@
+# -*- coding: utf-8 -*-
+'''
+'''
 
-from core import Runner
+from __future__ import absolute_import
+from clatter.core import Runner
+
+__author__ = """Climate Impact Lab"""
+__version__ = '0.1.3'
+
+_module_imports = (
+    Runner,
+)
+
+__all__ = list(map(lambda x: x.__name__, _module_imports))
