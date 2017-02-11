@@ -1,7 +1,7 @@
 import shlex
 import re
 import doctest
-
+import functools
 
 class Runner(object):
 
@@ -45,7 +45,8 @@ class Runner(object):
 
             assert args == args_comment[:len(args)]
 
-            comments = map(lambda s: s.upper(), args_comment[len(args)+1:])
+            comments = list(map(
+                lambda s: s.upper(), args_comment[len(args)+1:]))
 
             if 'CLATTER:' in comments:
                 option_flags = comments[comments.index('CLATTER:')+1:]
@@ -57,7 +58,7 @@ class Runner(object):
             options_dict = parser.parse('>>> None # doctest: {}'.format(
                 ' '.join(option_flags)))[1].options
 
-            options = options = reduce(
+            options = options = functools.reduce(
                 lambda o1, o2: o1 | o2,
                 options_dict.keys(),
                 0)
