@@ -11,7 +11,7 @@ class CommandValidator(object):
         if (options & doctest.SKIP):
             return
 
-        stdout, stderr = self.run_command(command, args, expected, options)
+        stdout, stderr = run_command(command, args)
 
         checker = doctest.OutputChecker()
 
@@ -40,7 +40,7 @@ class ClickValidator(CommandValidator):
 
         self.prefix = prefix
 
-    def run_command(self, command, args, expected, options):
+    def run_command(self, command, args):
 
         runner = CliRunner()
 
@@ -65,7 +65,7 @@ class SubprocessValidator(CommandValidator):
     def __init__(self):
         super(SubprocessValidator, self).__init__()
 
-    def run_command(self, command, args, expected, options):
+    def run_command(self, command, args):
 
         p = subprocess.Popen(
             [command] + args,
