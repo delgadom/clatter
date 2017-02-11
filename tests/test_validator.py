@@ -21,11 +21,13 @@ def hello(name):
 def badcmd(name):
     raise IOError("This command doesn't work!")
 
+
 def test_hello_world():
     runner = CliRunner()
     result = runner.invoke(hello, ['Peter'])
     assert result.exit_code == 0
     assert result.output == 'Hello Peter!\n'
+
 
 def test_string_command():
 
@@ -51,6 +53,7 @@ def test_string_command():
 
     tester.validate(teststr)
 
+
 def test_bad_command():
 
     badstr = '''
@@ -68,6 +71,7 @@ def test_bad_command():
     tester.call_engines['badcmd'] = ClickValidator(badcmd)
 
     tester.validate(badstr)
+
 
 def test_validator():
 
@@ -134,7 +138,6 @@ def test_skipper():
     tester.call_engines['aws'] = SkipValidator()
 
     tester.validate(skipstr)
-
 
     noskip = '''
 

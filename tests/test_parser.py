@@ -1,6 +1,7 @@
 
 from clatter import Runner
 
+
 def test_parser_1():
 
     tester = Runner()
@@ -53,8 +54,8 @@ def test_parser_2():
             '--cov-report',
             'term-missing'],
         (
-            'Traceback (most recent call last):'\
-            '\n...\n'\
+            'Traceback (most recent call last):'
+            '\n...\n'
             'ERROR: file not found: test_nonexistant.py\n'),
         12)
 
