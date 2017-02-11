@@ -11,14 +11,14 @@ class CommandValidator(object):
         if (options & doctest.SKIP):
             return
 
-        stdout, stderr = run_command(command, args)
+        stdout, stderr = self.run_command(command, args)
 
         checker = doctest.OutputChecker()
 
-        if checker.check_output(expected, stdout, options):
+        if checker.check_output(expected.rstrip(), stdout.rstrip(), options):
             return
 
-        if checker.check_output(expected, stderr, options):
+        if checker.check_output(expected.rstrip(), stderr.rstrip(), options):
             return
 
         msg = 'Clatter test failed. {0} != {1}\n\n+ {0}\n- {1}'.format(

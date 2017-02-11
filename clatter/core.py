@@ -32,6 +32,8 @@ class Runner(object):
             command = parsed.group('cmd')
             expected = parsed.group('res')
 
+            expected = re.sub(re.escape('<BLANKLINE>'), '', expected)
+
             if expected is None:
                 expected = ''
 
@@ -62,7 +64,7 @@ class Runner(object):
 
             expected = '\n'.join(map(
                 lambda s: s.strip(),
-                expected.strip().split('\n')))
+                expected.strip().split('\n')))+'\n'
 
             yield args, expected, options
 

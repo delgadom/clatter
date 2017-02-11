@@ -35,13 +35,11 @@ def test_string_command():
 
         $ hello Polly
         Hello Polly!
-        <BLANKLINE>
 
         $ hello Polly Parrot
         Usage: hello [OPTIONS] NAME
         <BLANKLINE>
         Error: Got unexpected extra argument (Parrot)
-        <BLANKLINE>
 
         $ hello 'Polly Parrot' # clatter: +NORMALIZE_WHITESPACE
         Hello Polly Parrot!
@@ -59,7 +57,7 @@ def test_bad_command():
 
     .. code-block:: bash
 
-        $ badcmd Polly # clatter: +ELLIPSIS
+        $ badcmd Polly # clatter: +ELLIPSIS +NORMALIZE_WHITESPACE
         Traceback (most recent call last):
         ...
         IOError: This command doesn't work!
@@ -79,11 +77,9 @@ def test_validator():
 
         $ hello Polly
         Hello Polly!
-        <BLANKLINE>
 
         $ echo 'Pining for the fjords'
         Pining for the fjords
-        <BLANKLINE>
 
     Pipes don't work, so we can't redirect this value into a file. But we can
     write a file with python:
@@ -173,3 +169,23 @@ def test_string_failure():
 
     with pytest.raises(ValueError):
         tester.validate(teststr)
+
+
+def test_skip():
+
+    teststr = r'''
+
+    Of course, you can always skip them!
+
+    .. code-block:: bash
+
+        $ echo "There, it moved!" # clatter: +SKIP
+        "No it didn't!"
+        <BLANKLINE>
+
+    '''
+
+    tester = Runner()
+    tester.call_engines['echo'] = SubprocessValidator()
+
+    tester.validate(teststr)
