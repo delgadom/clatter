@@ -29,7 +29,13 @@ clatter is a doctest-style testing tool for command-line applications. It wraps 
 Features
 --------
 
-* Test stuff
+* Bring testing best practices to your command line apps
+* Extensible - subclassing CommandValidator is trivial using any cli testing suite
+
+Downsides
+---------
+
+* Security. CLI commands are dangerous, and we make no attempt to protect you. Use at your own risk.
 
 
 Usage
@@ -93,8 +99,8 @@ Your app can be combined with other command-line utilities by adding
     ...     Pining for the fjords
     ...     <BLANKLINE>
     ... 
-    ... Pipes don't work, so we can't redirect this value into a file. But we can 
-    ... write a file with python:
+    ... Pipes/redirects don't work, so we can't redirect this value into a file.
+    ... But we can write a file with python:
     ... 
     ... .. code-block:: bash
     ... 
@@ -131,15 +137,12 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
 
-    >>> os.remove('tmp.txt')
 
+Commands can be skipped altogether with a ``SkipValidator``:
 
 .. code-block:: python
 
     >>> skipstr = '''
-    ... 
-    ... The following command will be skipped:
-    ... 
     ... .. code-block:: bash
     ... 
     ...     $ aws storage buckets list
@@ -164,13 +167,11 @@ Unrecognized commands will raise an error, even if +SKIP is specified
     >>> with pytest.raises(ValueError):
     ...     tester.validate(noskip)
 
+Lines failing to match the command's output will raise an error
 
 .. code-block:: python
 
     >>> teststr = r'''
-    ... 
-    ... Lines failing to match the command's output will raise an error
-    ... 
     ... .. code-block:: bash
     ... 
     ...     $ echo "There, it moved!"
