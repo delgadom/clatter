@@ -203,10 +203,3 @@ Todo
 
 See `issues <https://github.com/delgadom/clatter/issues>`_ to see and add to our todos.
 
-
-Credits
----------
-
-This package was created by `Justin Simcock <https://github.com/jgerardsimcock>`_ and `Michael Delgado <https://github.com/delgadom>`_ of the `Climate Impact Lab <http://impactlab.org>`_. Check us out on `github <https://github.com/delgadom>`_.
-
-Major kudos to the folks at `PyFilesystem <https://github.com/PyFilesystem>`_. Thanks also to `audreyr <https://github.com/audreyr>`_ for the wonderful `cookiecutter <https://github.com/audreyr/cookiecutter-pypackage>`_ package, and to `Pyup <https://pyup.io>`_, a constant source of inspiration and our silent third contributor.
