@@ -149,11 +149,12 @@ Errors are raised when using an application you haven't whitelisted:
     >>> tester = Runner()
     >>> tester.call_engines['aws'] = SkipValidator()
 
+Unrecognized commands will raise an error, even if +SKIP is specified
+
+.. code-block:: python
 
     >>> noskip = '''
-    ... 
-    ... Unrecognized commands will raise an error, even if +SKIP is specified
-    ... 
+    ...
     ... .. code-block:: bash
     ... 
     ...     $ nmake all # clitest: +SKIP
