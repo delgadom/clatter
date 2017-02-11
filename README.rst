@@ -226,8 +226,6 @@ Lines failing to match the command's output will raise an error
     
     - No it didn't!
 
-clatter\validators.py:28: ValueError
-
 
 Installation
 ------------
