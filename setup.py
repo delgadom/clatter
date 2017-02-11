@@ -31,7 +31,7 @@ extras = {
 
 setup(
     name='clatter',
-    version='0.0.1',
+    version='0.0.2',
     description="A Doctest-stype Command Line Application Tester",
     long_description=readme,
     author="Michael Delgado",
