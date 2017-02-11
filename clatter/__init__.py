@@ -5,8 +5,8 @@
 from __future__ import absolute_import
 from clatter.core import Runner
 
-__author__ = """Climate Impact Lab"""
-__version__ = '0.1.3'
+__author__ = """Michael Delgado"""
+__version__ = '0.0.1'
 
 _module_imports = (
     Runner,
