@@ -213,12 +213,20 @@ Lines failing to match the command's output will raise an error
     ...     <BLANKLINE>
     ... 
     ... '''
-
+    
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
+    
+    >>> tester.validate(teststr)
+    Traceback (most recent call last):
+    ...
+    ValueError: Clatter test failed. There, it moved! != No it didn't!
+    
+    + There, it moved!
+    
+    - No it didn't!
 
-    >>> with pytest.raises(ValueError):
-    ...     tester.validate(teststr)
+clatter\validators.py:28: ValueError
 
 
 Installation
