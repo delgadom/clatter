@@ -74,5 +74,3 @@ class SubprocessValidator(CommandValidator):
         p.wait()
 
         return p.communicate()
-
-
