@@ -1,6 +1,6 @@
-=========================================
-clatter Data Management System
-=========================================
+=======================================
+Clatter Command Line Application Tester
+=======================================
 
 .. image:: https://img.shields.io/pypi/v/clatter.svg
         :target: https://pypi.python.org/pypi/clatter
