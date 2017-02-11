@@ -41,6 +41,26 @@ Downsides
 Usage
 -----
 
+Test command line utilities and applications by whitelisting them with app-specific testing engines:
+
+.. code-block:: python
+
+    >>> teststr = r'''
+    ... 
+    ... .. code-block:: bash
+    ... 
+    ...     $ echo 'Pining for the fjords'
+    ...     Pining for the fjords
+    ...     <BLANKLINE>
+    ... '''
+    >>>
+    >>> tester = Runner()
+    >>> tester.call_engines['echo'] = SubprocessValidator()
+    >>> tester.validate(teststr)
+
+Click applications
+~~~~~~~~~~~~~~~~~~
+
 Integrate your command line app:
 
 .. code-block:: python
@@ -82,8 +102,11 @@ Click applications can be tested with a ``ClickValidator`` engine:
 
     >>> tester.validate(teststr)
 
-Your app can be combined with other command-line utilities by adding
-``SubprocessValidator`` engines:
+
+Mixed applications
+~~~~~~~~~~~~~~~~~~
+
+Your app can be combined with other command-line utilities by adding multiple engines:
 
 .. code-block:: python
 
@@ -118,6 +141,26 @@ Your app can be combined with other command-line utilities by adding
 
     >>> tester.validate(teststr)
 
+Suppressing commands
+~~~~~~~~~~~~~~~~~~~~
+
+Commands can be skipped altogether with a ``SkipValidator``:
+
+.. code-block:: python
+
+    >>> skipstr = '''
+    ... .. code-block:: bash
+    ... 
+    ...     $ aws storage buckets list
+    ... 
+    ... '''
+
+    >>> tester = Runner()
+    >>> tester.call_engines['aws'] = SkipValidator()
+
+Illegal commands
+~~~~~~~~~~~~~~~~
+
 Errors are raised when using an application you haven't whitelisted:
 
 .. code-block:: python
@@ -137,35 +180,23 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
 
-
-Commands can be skipped altogether with a ``SkipValidator``:
-
-.. code-block:: python
-
-    >>> skipstr = '''
-    ... .. code-block:: bash
-    ... 
-    ...     $ aws storage buckets list
-    ... 
-    ... '''
-
-    >>> tester = Runner()
-    >>> tester.call_engines['aws'] = SkipValidator()
-
 Unrecognized commands will raise an error, even if +SKIP is specified
 
 .. code-block:: python
 
     >>> noskip = '''
-    ...
     ... .. code-block:: bash
     ... 
     ...     $ nmake all # clitest: +SKIP
     ... 
     ... '''
+    >>> tester.validate(badstr)
+    Traceback (most recent call last):
+    ...
+    ValueError: Command "nmake" not allowed. Add command caller to call_engines to whitelist.
 
-    >>> with pytest.raises(ValueError):
-    ...     tester.validate(noskip)
+Error handling
+~~~~~~~~~~~~~~
 
 Lines failing to match the command's output will raise an error
 
