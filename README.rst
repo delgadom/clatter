@@ -16,8 +16,11 @@ clatter Data Management System
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/delgadom/clatter/shield.svg
-        :target: https://pyup.io/repos/github/delgadom/clatter/
-        :alt: Updates
+     :target: https://pyup.io/repos/github/delgadom/clatter/
+     :alt: Updates
+
+.. image:: https://api.codacy.com/project/badge/Grade/2c2af36490c04543b925edafc0d66842
+    :target: https://www.codacy.com/app/delgadom/clatter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=delgadom/clatter&amp;utm_campaign=Badge_Grade
 
 
 clatter is a doctest-style testing tool for command-line applications. It wraps other testing suites and allows them to be tested in docstrings.
