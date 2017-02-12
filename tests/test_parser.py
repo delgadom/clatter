@@ -56,7 +56,7 @@ def test_parser_2():
         (
             'Traceback (most recent call last):'
             '\n...\n'
-            'ERROR: file not found: test_nonexistant.py'),
+            'ERROR: file not found: test_nonexistant.py\n'),
         8)
 
     assert next(parser) == expected

@@ -6,6 +6,27 @@ import functools
 
 class Runner(object):
 
+    NEWLINE = r'(\n)'
+    SPACE = r'(?P<space>[\ \t]*)'
+    CMD_START = r'(\$[\ \t]+)'
+    CMD_CONTENTS_FIRST = r'(?P<cmd>[^\r\n\\]+'
+    CMD_CONTENTS_REST = r'(\\[\ \t]*(\r\n|\n)(?P=space)[^\n\\]+)*)'
+    CMD_END_RETURN = r'(\r\n|\n)'
+    RESPONSE_PREFIX = r'((?P=space)'
+    RESPONSE_FIRST = r'(?P<res>(([^\$\r\n][^\r\n]+(\r\n|\n))'
+    RESPONSE_REST = r'((?P=space)[^\$\r\n][^\r\n]+(\r\n|\n))*)))?'
+
+    COMMAND_REGEX = re.compile((
+        NEWLINE
+        +SPACE
+        +CMD_START
+        +CMD_CONTENTS_FIRST
+        +CMD_CONTENTS_REST
+        +CMD_END_RETURN
+        +RESPONSE_PREFIX
+        +RESPONSE_FIRST
+        +RESPONSE_REST))
+
     def __init__(self, call_engines=None, default=None):
 
         if call_engines is None:
@@ -21,25 +42,17 @@ class Runner(object):
 
         """
 
-        for i, parsed in enumerate(re.finditer((
-                    r'(?<=\n)'
-                    r'(?P<space>[\ \t]*)'
-                    r'(\$[\ \t]+)'
-                    r'(?P<cmd>[^\r\n\\]+(\\[\ \t]*\n[^\n\\]+)*)'
-                    r'(?P<res>((\r\n|\n)\ +[^\$\>\s][^\r\n\\]*)'
-                    r'*(\\[\ \t]*(\r\n|\n)\g<space>[^\r\n\\]+)*\n)'
-                ), string)):
+        for i, parsed in enumerate(re.finditer(self.COMMAND_REGEX, string)):
 
+            space = parsed.group('space')
             command = parsed.group('cmd')
             expected = parsed.group('res')
-
-            expected = re.sub(re.escape('<BLANKLINE>'), '', expected)
 
             if expected is None:
                 expected = ''
 
             formatted = ''.join(re.split(
-                r'\\[\ \t]*(\r\n|\n)[\ \t]*>', command))
+                r'\\[\ \t]*(\r\n|\n){}>'.format(re.escape(space)), command))
 
             args = shlex.split(formatted, comments=True)
             args_comment = shlex.split(formatted, comments=False)
@@ -64,9 +77,10 @@ class Runner(object):
                 options_dict.keys(),
                 0)
 
-            expected = '\n'.join(map(
-                lambda s: s.strip(),
-                expected.strip().split('\n')))
+            # Remove extra leading space from lines 1+ in expected
+            expected = functools.reduce(
+                lambda first, second: first + '\n' + second[len(space):],
+                expected.split('\n'))
 
             yield args, expected, options
 
