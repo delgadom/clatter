@@ -31,14 +31,14 @@ def test_parser_2():
         $ pytest test_nonexistant.py --cov=mymodule \
         >     --cov=docs --doctest-modules \
         >     --cov-report term-missing \
-        >     # clatter: +ELLIPSIS +NORMALIZE_WHITESPACE
+        >     # doctest: +ELLIPSIS
         Traceback (most recent call last):
         ...
         ERROR: file not found: test_nonexistant.py
 
         $ pytest test_real.py --cov=mymodule \
         >     --cov=docs --doctest-modules \
-        >     --cov-report term-missing # clatter: +SKIP
+        >     --cov-report term-missing # doctest: +SKIP
 
     '''
 
@@ -56,8 +56,8 @@ def test_parser_2():
         (
             'Traceback (most recent call last):'
             '\n...\n'
-            'ERROR: file not found: test_nonexistant.py\n'),
-        12)
+            'ERROR: file not found: test_nonexistant.py'),
+        8)
 
     assert next(parser) == expected
 
@@ -70,5 +70,5 @@ def test_parser_2():
             '--doctest-modules',
             '--cov-report',
             'term-missing'],
-        '\n',
+        '',
         16)

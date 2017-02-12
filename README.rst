@@ -54,7 +54,6 @@ Test command line utilities and applications by whitelisting them with app-speci
     ... 
     ...     $ echo 'Pining for the fjords'
     ...     Pining for the fjords
-    ...     <BLANKLINE>
     ... '''
     >>>
     >>> tester = Runner()
@@ -83,15 +82,13 @@ This can now be tested in docstrings:
     ... 
     ...     $ hello Polly
     ...     Hello Polly!
-    ...     <BLANKLINE>
     ... 
     ...     $ hello Polly Parrot
     ...     Usage: hello [OPTIONS] NAME
     ...     <BLANKLINE>
     ...     Error: Got unexpected extra argument (Parrot)
-    ...     <BLANKLINE>
     ... 
-    ...     $ hello 'Polly Parrot' # clitest: +NORMALIZE_WHITESPACE
+    ...     $ hello 'Polly Parrot'
     ...     Hello Polly Parrot!
     ... 
     ... '''
@@ -119,11 +116,9 @@ Your app can be combined with other command-line utilities by adding multiple en
     ... 
     ...     $ hello Polly
     ...     Hello Polly!
-    ...     <BLANKLINE>
     ... 
     ...     $ echo 'Pining for the fjords'
     ...     Pining for the fjords
-    ...     <BLANKLINE>
     ... 
     ... Pipes/redirects don't work, so we can't redirect this value into a file.
     ... But we can write a file with python:
@@ -190,7 +185,7 @@ Unrecognized commands will raise an error, even if +SKIP is specified
     >>> noskip = '''
     ... .. code-block:: bash
     ... 
-    ...     $ nmake all # clitest: +SKIP
+    ...     $ nmake all # doctest: +SKIP
     ... 
     ... '''
     >>> tester.validate(badstr)
@@ -210,7 +205,6 @@ Lines failing to match the command's output will raise an error
     ... 
     ...     $ echo "There, it moved!"
     ...     "No it didn't!"
-    ...     <BLANKLINE>
     ... 
     ... '''
     

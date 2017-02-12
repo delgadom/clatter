@@ -43,7 +43,7 @@ def test_string_command():
         <BLANKLINE>
         Error: Got unexpected extra argument (Parrot)
 
-        $ hello 'Polly Parrot' # clatter: +NORMALIZE_WHITESPACE
+        $ hello 'Polly Parrot'
         Hello Polly Parrot!
 
     '''
@@ -60,7 +60,7 @@ def test_bad_command():
 
     .. code-block:: bash
 
-        $ badcmd Polly # clatter: +ELLIPSIS +NORMALIZE_WHITESPACE
+        $ badcmd Polly # doctest: +ELLIPSIS
         Traceback (most recent call last):
         ...
         IOError: This command doesn't work!
@@ -145,7 +145,7 @@ def test_skipper():
 
     .. code-block:: bash
 
-        $ nmake all # clatter: +SKIP
+        $ nmake all # doctest: +SKIP
 
     '''
 
@@ -163,7 +163,6 @@ def test_string_failure():
 
         $ echo "There, it moved!"
         "No it didn't!"
-        <BLANKLINE>
 
     '''
 
@@ -182,9 +181,8 @@ def test_skip():
 
     .. code-block:: bash
 
-        $ echo "There, it moved!" # clatter: +SKIP
+        $ echo "There, it moved!" # doctest: +SKIP
         "No it didn't!"
-        <BLANKLINE>
 
     '''
 

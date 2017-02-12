@@ -25,9 +25,9 @@ class Runner(object):
                     r'(?<=\n)'
                     r'(?P<space>[\ \t]*)'
                     r'(\$[\ \t]+)'
-                    r'(?P<cmd>[^\r\n\\]+(\\[\ \t]*\n[^\n\\]*)*)'
+                    r'(?P<cmd>[^\r\n\\]+(\\[\ \t]*\n[^\n\\]+)*)'
                     r'(?P<res>((\r\n|\n)\ +[^\$\>\s][^\r\n\\]*)'
-                    r'*(\\[\ \t]*(\r\n|\n)\g<space>[^\r\n\\]+)*)'
+                    r'*(\\[\ \t]*(\r\n|\n)\g<space>[^\r\n\\]+)*\n)'
                 ), string)):
 
             command = parsed.group('cmd')
@@ -49,8 +49,8 @@ class Runner(object):
             comments = list(map(
                 lambda s: s.upper(), args_comment[len(args)+1:]))
 
-            if 'CLATTER:' in comments:
-                option_flags = comments[comments.index('CLATTER:')+1:]
+            if 'DOCTEST:' in comments:
+                option_flags = comments[comments.index('DOCTEST:')+1:]
             else:
                 option_flags = []
 
@@ -66,7 +66,7 @@ class Runner(object):
 
             expected = '\n'.join(map(
                 lambda s: s.strip(),
-                expected.strip().split('\n')))+'\n'
+                expected.strip().split('\n')))
 
             yield args, expected, options
 
