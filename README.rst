@@ -52,7 +52,7 @@ Test command line utilities and applications by whitelisting them with app-speci
 
 .. code-block:: python
 
-    >>> test_string = r'''
+    >>> test_str = r'''
     ... 
     ... .. code-block:: bash
     ... 
@@ -62,7 +62,7 @@ Test command line utilities and applications by whitelisting them with app-speci
     >>>
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
-    >>> tester.teststring(test_string)
+    >>> tester.teststring(test_str)
 
 Click applications
 ~~~~~~~~~~~~~~~~~~
@@ -81,7 +81,7 @@ This can now be tested in docstrings:
 
 .. code-block:: python
 
-    >>> test_string = '''
+    >>> test_str = '''
     ... 
     ... .. code-block:: bash
     ... 
@@ -106,7 +106,7 @@ Click applications can be tested with a ``ClickValidator`` engine:
     >>> tester = Runner()
     >>> tester.call_engines['hello'] = ClickValidator(hello)
 
-    >>> tester.teststring(test_string)
+    >>> tester.teststring(test_str)
 
 
 Mixed applications
@@ -116,7 +116,7 @@ Your app can be combined with other command-line utilities by adding multiple en
 
 .. code-block:: python
 
-    >>> test_string = r'''
+    >>> test_str = r'''
     ... 
     ... .. code-block:: bash
     ... 
@@ -143,7 +143,7 @@ Your app can be combined with other command-line utilities by adding multiple en
     >>> tester.call_engines['python'] = SubprocessValidator()
     >>> tester.call_engines['cat'] = SubprocessValidator()
 
-    >>> tester.teststring(test_string)
+    >>> tester.teststring(test_str)
 
 Suppressing commands
 ~~~~~~~~~~~~~~~~~~~~
@@ -152,7 +152,7 @@ Commands can be skipped altogether with a ``SkipValidator``:
 
 .. code-block:: python
 
-    >>> test_string = '''
+    >>> test_str = '''
     ... .. code-block:: bash
     ... 
     ...     $ aws storage buckets list
@@ -162,7 +162,7 @@ Commands can be skipped altogether with a ``SkipValidator``:
     >>> from clatter.validators import SkipValidator
     >>> tester.call_engines['aws'] = SkipValidator()
 
-    >>> tester.teststring(test_string)
+    >>> tester.teststring(test_str)
 
 
 Illegal commands
@@ -172,7 +172,7 @@ Errors are raised when using an application you haven't whitelisted:
 
 .. code-block:: python
 
-    >>> test_string = '''
+    >>> test_str = '''
     ...
     ... The following block of code should cause an error:
     ...
@@ -182,7 +182,7 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ... '''
 
-    >>> tester.teststring(test_string) # doctest +ELLIPSIS
+    >>> tester.teststring(test_str) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
@@ -191,14 +191,14 @@ Unrecognized commands will raise an error, even if +SKIP is specified
 
 .. code-block:: python
 
-    >>> test_string = '''
+    >>> test_str = r'''
     ...
     ... .. code-block:: bash
     ...
-    ...     $ nmake all
+    ...     $ nmake all \#doctest: +SKIP
     ...
     ... '''
-    >>> tester.teststring(test_string) # doctest +ELLIPSIS
+    >>> tester.teststring(test_str) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "nmake" not allowed. Add command caller to call_engines to whitelist.
@@ -210,7 +210,7 @@ Lines failing to match the command's output will raise an error
 
 .. code-block:: python
 
-    >>> test_string = r'''
+    >>> test_str = r'''
     ... .. code-block:: bash
     ... 
     ...     $ echo "There, it moved!"
@@ -221,17 +221,13 @@ Lines failing to match the command's output will raise an error
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
     
-    >>> tester.teststring(test_string) # doctest: +ELLIPSIS
+    >>> tester.teststring(test_str) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
     ...
     ValueError: Clatter test failed. There, it moved!
      != "No it didn't!"
-    <BLANKLINE>
-    <BLANKLINE>
     + There, it moved!
-    <BLANKLINE>
     - "No it didn't!"
-    <BLANKLINE>
 
 Known issues
 ------------
@@ -252,20 +248,18 @@ All arguments to commands are passed as arguments to the first command. Therefor
 
 .. code-block:: python
     
-    >>> test = '''
+    >>> test_str = '''
     ...    $ echo hello > test.txt
     ...    $ cat test.txt    
     ...    hello
     ...
     ... '''
-    >>> tester.teststring(test) # doctest: +ELLIPSIS
+    >>> tester.teststring(test_str) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
     ...
     ValueError: Clatter test failed. hello > test.txt
      != 
-     <BLANKLINE>
     + hello > test.txt
-     <BLANKLINE>
     - 
 
 
