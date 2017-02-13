@@ -15,15 +15,15 @@ class CommandValidator(object):
 
         checker = doctest.OutputChecker()
 
-        if checker.check_output(expected.rstrip(), stdout.rstrip(), options):
-            return
-
-        if checker.check_output(expected.rstrip(), stderr.rstrip(), options):
+        if checker.check_output(
+            expected.rstrip(),
+            stdout.rstrip() + stderr.rstrip(),
+            options):
             return
 
         msg = 'Clatter test failed. {0} != {1}\n\n+ {0}\n- {1}'.format(
-            (stdout if stdout else stderr),
-            expected)
+            stdout + stderr,
+            expected.rstrip())
 
         raise ValueError(msg)
 
@@ -46,7 +46,10 @@ class ClickValidator(CommandValidator):
 
         result = runner.invoke(self.app, self.prefix + args)
 
-        tb = ''.join(traceback.format_exception(*result.exc_info))
+        if result.exit_code and not isinstance(result.exc_info[1], SystemExit):
+            tb = ''.join(traceback.format_exception(*result.exc_info))
+        else:
+            tb = ''
 
         return result.output, tb
 

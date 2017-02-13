@@ -82,7 +82,7 @@ def test_validator():
         $ hello Polly
         Hello Polly!
 
-        $ echo 'Pining for the fjords'
+        $ echo 'Pining for the fjords' # doctest: +NORMALIZE_WHITESPACE
         Pining for the fjords
 
     Pipes don't work, so we can't redirect this value into a file. But we can

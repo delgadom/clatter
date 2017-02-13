@@ -34,21 +34,22 @@ Features
 
 * Bring testing best practices to your command line apps
 * Extensible - subclassing CommandValidator is trivial using any cli testing suite
-
-Downsides
----------
-
-* Security. CLI commands are dangerous, and we make no attempt to protect you. Use at your own risk.
+* Easily test your documentation. This README is a valid doctest!
 
 
 Usage
 -----
 
+.. code-block:: python
+
+    >>> from clatter import Runner
+    >>> from clatter.validators import SubprocessValidator
+
 Test command line utilities and applications by whitelisting them with app-specific testing engines:
 
 .. code-block:: python
 
-    >>> teststr = r'''
+    >>> test_string = r'''
     ... 
     ... .. code-block:: bash
     ... 
@@ -58,7 +59,7 @@ Test command line utilities and applications by whitelisting them with app-speci
     >>>
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
-    >>> tester.validate(teststr)
+    >>> tester.validate(test_string)
 
 Click applications
 ~~~~~~~~~~~~~~~~~~
@@ -66,7 +67,8 @@ Click applications
 Integrate your command line app:
 
 .. code-block:: python
-
+    
+    >>> import click
     >>> @click.command()
     ... @click.argument('name')
     ... def hello(name):
@@ -76,7 +78,7 @@ This can now be tested in docstrings:
 
 .. code-block:: python
 
-    >>> teststr = '''
+    >>> test_string = '''
     ... 
     ... .. code-block:: bash
     ... 
@@ -97,10 +99,11 @@ Click applications can be tested with a ``ClickValidator`` engine:
 
 .. code-block:: python
 
+    >>> from clatter.validators import ClickValidator
     >>> tester = Runner()
     >>> tester.call_engines['hello'] = ClickValidator(hello)
 
-    >>> tester.validate(teststr)
+    >>> tester.validate(test_string)
 
 
 Mixed applications
@@ -110,7 +113,7 @@ Your app can be combined with other command-line utilities by adding multiple en
 
 .. code-block:: python
 
-    >>> teststr = r'''
+    >>> test_string = r'''
     ... 
     ... .. code-block:: bash
     ... 
@@ -130,14 +133,14 @@ Your app can be combined with other command-line utilities by adding multiple en
     ... 
     ...     $ cat tmp.txt
     ...     Pushing up daisies
-    ... 
+    ...
     ... '''
 
     >>> tester.call_engines['echo'] = SubprocessValidator()
     >>> tester.call_engines['python'] = SubprocessValidator()
     >>> tester.call_engines['cat'] = SubprocessValidator()
 
-    >>> tester.validate(teststr)
+    >>> tester.validate(test_string)
 
 Suppressing commands
 ~~~~~~~~~~~~~~~~~~~~
@@ -146,15 +149,18 @@ Commands can be skipped altogether with a ``SkipValidator``:
 
 .. code-block:: python
 
-    >>> skipstr = '''
+    >>> test_string = '''
     ... .. code-block:: bash
     ... 
     ...     $ aws storage buckets list
     ... 
     ... '''
 
-    >>> tester = Runner()
+    >>> from clatter.validators import SkipValidator
     >>> tester.call_engines['aws'] = SkipValidator()
+
+    >>> tester.validate(test_string)
+
 
 Illegal commands
 ~~~~~~~~~~~~~~~~
@@ -163,17 +169,17 @@ Errors are raised when using an application you haven't whitelisted:
 
 .. code-block:: python
 
-    >>> badstr = '''
-    ... 
+    >>> test_string = '''
+    ...
     ... The following block of code should cause an error:
-    ... 
+    ...
     ... .. code-block:: bash
-    ... 
+    ...
     ...     $ rm tmp.txt
-    ... 
+    ...
     ... '''
 
-    >>> tester.validate(badstr)
+    >>> tester.validate(test_string) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
@@ -182,13 +188,14 @@ Unrecognized commands will raise an error, even if +SKIP is specified
 
 .. code-block:: python
 
-    >>> noskip = '''
+    >>> test_string = '''
+    ...
     ... .. code-block:: bash
-    ... 
-    ...     $ nmake all # doctest: +SKIP
-    ... 
+    ...
+    ...     $ nmake all
+    ...
     ... '''
-    >>> tester.validate(badstr)
+    >>> tester.validate(test_string) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "nmake" not allowed. Add command caller to call_engines to whitelist.
@@ -200,7 +207,7 @@ Lines failing to match the command's output will raise an error
 
 .. code-block:: python
 
-    >>> teststr = r'''
+    >>> test_string = r'''
     ... .. code-block:: bash
     ... 
     ...     $ echo "There, it moved!"
@@ -211,14 +218,53 @@ Lines failing to match the command's output will raise an error
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
     
-    >>> tester.validate(teststr)
+    >>> tester.validate(test_string) # doctest: +ELLIPSIS
     Traceback (most recent call last):
     ...
-    ValueError: Clatter test failed. There, it moved! != No it didn't!
-    
+    ValueError: Clatter test failed. There, it moved!
+     != "No it didn't!"
+    <BLANKLINE>
+    <BLANKLINE>
     + There, it moved!
+    <BLANKLINE>
+    - "No it didn't!"
+    <BLANKLINE>
+
+Known issues
+---------
+
+We have issues on our `issues <https://github.com/delgadom/clatter/issues>`_ page. But we want to be very up-front about these.
+
+Security
+~~~~~~~~
+
+Similar to ``doctest``, executing arbitrary commands from within your tests is dangerous, and we make no attempt to protect you. We won't run commands you don't whitelist, but we cant't prevent against malicious cases. Don't run anything you don't understand, and use at your own risk.
+
+Syntactic completeness
+~~~~~~~~~~~~~~~~~~~~~~
+
+Clatter is not a syntactically complete bash emulator and has no intention of being so.
+
+All arguments to commands are passed as arguments to the first command. Therefore, loops, pipes, redirects, and other control-flow and IO commands will not work as expected.
+
+.. code-block:: python
     
-    - No it didn't!
+    >>> test = '''
+    ...    $ echo hello > test.txt
+    ...    $ cat test.txt    
+    ...    hello
+    ...
+    ... '''
+    >>> tester.validate(test) # doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    ...
+    ValueError: Clatter test failed. hello > test.txt
+     != 
+
+    + hello > test.txt
+
+    - blah
+
 
 
 Installation
