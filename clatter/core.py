@@ -6,26 +6,26 @@ import functools
 
 class Runner(object):
 
-    NEWLINE = r'(\n)'
-    SPACE = r'(?P<space>[\ \t]*)'
-    CMD_START = r'(\$[\ \t]+)'
-    CMD_CONTENTS_FIRST = r'(?P<cmd>[^\r\n\\]+'
-    CMD_CONTENTS_REST = r'(\\[\ \t]*(\r\n|\n)(?P=space)[^\n\\]+)*)'
-    CMD_END_RETURN = r'(\r\n|\n)'
-    RESPONSE_PREFIX = r'((?P=space)'
-    RESPONSE_FIRST = r'(?P<res>(([^\$\r\n][^\r\n]+(\r\n|\n))'
-    RESPONSE_REST = r'((?P=space)[^\$\r\n][^\r\n]+(\r\n|\n))*)))?'
+    _NEWLINE = r'(\n)'
+    _SPACE = r'(?P<space>[\ \t]*)'
+    _CMD_START = r'(\$[\ \t]+)'
+    _CMD_CONTENTS_FIRST = r'(?P<cmd>[^\r\n\\]+'
+    _CMD_CONTENTS_REST = r'(\\[\ \t]*(\r\n|\n)(?P=space)[^\n\\]+)*)'
+    _CMD_END_RETURN = r'(\r\n|\n)'
+    _RESPONSE_PREFIX = r'((?P=space)'
+    _RESPONSE_FIRST = r'(?P<res>(([^\$\r\n][^\r\n]+(\r\n|\n))'
+    _RESPONSE_REST = r'((?P=space)[^\$\r\n][^\r\n]+(\r\n|\n))*)))?'
 
-    COMMAND_REGEX = re.compile((
-        NEWLINE
-        +SPACE
-        +CMD_START
-        +CMD_CONTENTS_FIRST
-        +CMD_CONTENTS_REST
-        +CMD_END_RETURN
-        +RESPONSE_PREFIX
-        +RESPONSE_FIRST
-        +RESPONSE_REST))
+    _COMMAND_REGEX = re.compile((
+        _NEWLINE
+        + _SPACE
+        + _CMD_START
+        + _CMD_CONTENTS_FIRST
+        + _CMD_CONTENTS_REST
+        + _CMD_END_RETURN
+        + _RESPONSE_PREFIX
+        + _RESPONSE_FIRST
+        + _RESPONSE_REST))
 
     def __init__(self, call_engines=None, default=None):
 
@@ -42,7 +42,7 @@ class Runner(object):
 
         """
 
-        for i, parsed in enumerate(re.finditer(self.COMMAND_REGEX, string)):
+        for i, parsed in enumerate(re.finditer(self._COMMAND_REGEX, string)):
 
             space = parsed.group('space')
             command = parsed.group('cmd')
@@ -84,9 +84,9 @@ class Runner(object):
 
             yield args, expected, options
 
-    def validate(self, command):
+    def teststring(self, command):
         '''
-        Checks the result of running command against expected output
+        Checks command blocks in a string
         '''
 
         for command, expected, options in self._parse_cli_statement(command):
@@ -103,3 +103,11 @@ class Runner(object):
                 args=command[1:],
                 expected=expected,
                 options=options)
+
+    def testfile(self, filepath):
+        '''
+        Checks command blocks in a file
+        '''
+
+        with open(filepath, 'r') as f:
+            self.teststring(f.read())

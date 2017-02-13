@@ -59,7 +59,7 @@ Test command line utilities and applications by whitelisting them with app-speci
     >>>
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
-    >>> tester.validate(test_string)
+    >>> tester.teststring(test_string)
 
 Click applications
 ~~~~~~~~~~~~~~~~~~
@@ -103,7 +103,7 @@ Click applications can be tested with a ``ClickValidator`` engine:
     >>> tester = Runner()
     >>> tester.call_engines['hello'] = ClickValidator(hello)
 
-    >>> tester.validate(test_string)
+    >>> tester.teststring(test_string)
 
 
 Mixed applications
@@ -140,7 +140,7 @@ Your app can be combined with other command-line utilities by adding multiple en
     >>> tester.call_engines['python'] = SubprocessValidator()
     >>> tester.call_engines['cat'] = SubprocessValidator()
 
-    >>> tester.validate(test_string)
+    >>> tester.teststring(test_string)
 
 Suppressing commands
 ~~~~~~~~~~~~~~~~~~~~
@@ -159,7 +159,7 @@ Commands can be skipped altogether with a ``SkipValidator``:
     >>> from clatter.validators import SkipValidator
     >>> tester.call_engines['aws'] = SkipValidator()
 
-    >>> tester.validate(test_string)
+    >>> tester.teststring(test_string)
 
 
 Illegal commands
@@ -179,7 +179,7 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ... '''
 
-    >>> tester.validate(test_string) # doctest +ELLIPSIS
+    >>> tester.teststring(test_string) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
@@ -195,7 +195,7 @@ Unrecognized commands will raise an error, even if +SKIP is specified
     ...     $ nmake all
     ...
     ... '''
-    >>> tester.validate(test_string) # doctest +ELLIPSIS
+    >>> tester.teststring(test_string) # doctest +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "nmake" not allowed. Add command caller to call_engines to whitelist.
@@ -218,7 +218,7 @@ Lines failing to match the command's output will raise an error
     >>> tester = Runner()
     >>> tester.call_engines['echo'] = SubprocessValidator()
     
-    >>> tester.validate(test_string) # doctest: +ELLIPSIS
+    >>> tester.teststring(test_string) # doctest: +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Clatter test failed. There, it moved!
@@ -231,7 +231,7 @@ Lines failing to match the command's output will raise an error
     <BLANKLINE>
 
 Known issues
----------
+------------
 
 We have issues on our `issues <https://github.com/delgadom/clatter/issues>`_ page. But we want to be very up-front about these.
 
@@ -255,7 +255,7 @@ All arguments to commands are passed as arguments to the first command. Therefor
     ...    hello
     ...
     ... '''
-    >>> tester.validate(test) # doctest: +ELLIPSIS
+    >>> tester.teststring(test) # doctest: +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Clatter test failed. hello > test.txt

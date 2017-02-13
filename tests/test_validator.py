@@ -51,7 +51,7 @@ def test_string_command():
     tester = Runner()
     tester.call_engines['hello'] = ClickValidator(hello)
 
-    tester.validate(teststr)
+    tester.teststring(teststr)
 
 
 def test_bad_command():
@@ -70,7 +70,7 @@ def test_bad_command():
     tester = Runner()
     tester.call_engines['badcmd'] = ClickValidator(badcmd)
 
-    tester.validate(badstr)
+    tester.teststring(badstr)
 
 
 def test_validator():
@@ -104,7 +104,7 @@ def test_validator():
     tester.call_engines['python'] = SubprocessValidator()
     tester.call_engines['cat'] = SubprocessValidator()
 
-    tester.validate(teststr)
+    tester.teststring(teststr)
 
     badstr = '''
 
@@ -117,7 +117,7 @@ def test_validator():
     '''
 
     with pytest.raises(ValueError):
-        tester.validate(badstr)
+        tester.teststring(badstr)
 
     os.remove('tmp.txt')
 
@@ -137,7 +137,7 @@ def test_skipper():
     tester = Runner()
     tester.call_engines['aws'] = SkipValidator()
 
-    tester.validate(skipstr)
+    tester.teststring(skipstr)
 
     noskip = '''
 
@@ -150,7 +150,7 @@ def test_skipper():
     '''
 
     with pytest.raises(ValueError):
-        tester.validate(noskip)
+        tester.teststring(noskip)
 
 
 def test_string_failure():
@@ -170,7 +170,7 @@ def test_string_failure():
     tester.call_engines['echo'] = SubprocessValidator()
 
     with pytest.raises(ValueError):
-        tester.validate(teststr)
+        tester.teststring(teststr)
 
 
 def test_skip():
@@ -189,4 +189,4 @@ def test_skip():
     tester = Runner()
     tester.call_engines['echo'] = SubprocessValidator()
 
-    tester.validate(teststr)
+    tester.teststring(teststr)
