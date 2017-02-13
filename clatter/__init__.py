@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from clatter.core import Runner
 
 __author__ = """Michael Delgado"""
-__version__ = '0.0.4'
+__version__ = '0.1.0'
 
 _module_imports = (
     Runner,
