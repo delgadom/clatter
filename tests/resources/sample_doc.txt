@@ -1,0 +1,17 @@
+
+.. code-block:: bash
+
+    $ echo 'Pining for the fjords'
+    Pining for the fjords
+
+Pipes don't work, so we can't redirect this value into a file. But we can
+write a file with python:
+
+.. code-block:: bash
+
+    $ python -c \
+    >     "with open('tmp.txt', 'w+') as f: f.write('Pushing up daisies')"
+
+    $ cat tmp.txt
+    Pushing up daisies
+

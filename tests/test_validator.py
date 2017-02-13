@@ -19,7 +19,7 @@ def hello(name):
 @click.command()
 @click.argument('name')
 def badcmd(name):
-    raise IOError("This command doesn't work!")
+    raise ValueError("This command doesn't work!")
 
 
 def test_hello_world():
@@ -63,7 +63,7 @@ def test_bad_command():
         $ badcmd Polly # doctest: +ELLIPSIS
         Traceback (most recent call last):
         ...
-        IOError: This command doesn't work!
+        ValueError: This command doesn't work!
 
     '''
 
