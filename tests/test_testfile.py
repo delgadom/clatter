@@ -3,10 +3,8 @@ from __future__ import absolute_import
 
 from clatter import Runner
 from clatter.validators import (
-    ClickValidator,
-    SubprocessValidator,
-    SubprocessValidator,
     SubprocessValidator)
+
 
 def testfile():
 
