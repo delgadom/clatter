@@ -22,7 +22,8 @@ Clatter Command Line Application Tester
 .. image:: https://api.codacy.com/project/badge/Grade/2c2af36490c04543b925edafc0d66842
     :target: https://www.codacy.com/app/delgadom/clatter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=delgadom/clatter&amp;utm_campaign=Badge_Grade
 
-.. image:: https://img.shields.io/pypi/pyversions/clatter.svg   :target: https://pypi.python.org/pypi/clatter
+.. image:: https://img.shields.io/pypi/pyversions/clatter.svg
+    :target: https://pypi.python.org/pypi/clatter
 
 
 clatter is a doctest-style testing tool for command-line applications. It wraps other testing suites and allows them to be tested in docstrings.
