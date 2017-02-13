@@ -36,7 +36,14 @@ setup(
     long_description=readme,
     author="Michael Delgado",
     url='https://github.com/delgadom/clatter',
-    packages=find_packages(exclude=['*.tests', '*.tests.*', 'tests.*', 'tests', 'docs', 'examples']),
+    packages=find_packages(exclude=[
+        '*.tests',
+        '*.tests.*',
+        'tests.*',
+        'tests',
+        'docs',
+        'examples']),
+
     package_dir={'clatter':
                  'clatter'},
     include_package_data=True,

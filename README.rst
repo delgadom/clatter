@@ -260,10 +260,10 @@ All arguments to commands are passed as arguments to the first command. Therefor
     ...
     ValueError: Clatter test failed. hello > test.txt
      != 
-
+     <BLANKLINE>
     + hello > test.txt
-
-    - blah
+     <BLANKLINE>
+    - 
 
 
 
