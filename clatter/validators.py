@@ -77,4 +77,4 @@ class SubprocessValidator(CommandValidator):
 
         p.wait()
 
-        return p.communicate()
+        return tuple(map(str, p.communicate()))
