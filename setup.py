@@ -31,7 +31,7 @@ extras = {
 
 setup(
     name='clatter',
-    version='0.0.4',
+    version='0.1.0',
     description="A Doctest-stype Command Line Application Tester",
     long_description=readme,
     author="Michael Delgado",
@@ -61,7 +61,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5'
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6'
     ],
     test_suite='tests',
     setup_requires=['pytest-runner'],
