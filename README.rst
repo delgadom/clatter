@@ -189,13 +189,23 @@ Errors are raised when using an application you haven't whitelisted:
 
 Unrecognized commands will raise an error, even if +SKIP is specified
 
+.. doctest's skip here will be interpreted by doctest, not clatter. So we mock the code here.
+
+    >>> test_str = r'''
+    ...
+    ... .. code-block:: bash
+    ...
+    ...     $ nmake all
+    ...
+    ... '''
+
 .. code-block:: python
 
     >>> test_str = r'''
     ...
     ... .. code-block:: bash
     ...
-    ...     $ nmake all \#doctest: +SKIP
+    ...     $ nmake all # doctest: +SKIP
     ...
     ... '''
     >>> tester.teststring(test_str) # doctest +ELLIPSIS

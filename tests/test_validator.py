@@ -145,7 +145,7 @@ def test_skipper():
 
     .. code-block:: bash
 
-        $ nmake all # doctest: +SKIP
+        $ blather all # doctest: +SKIP
 
     '''
 

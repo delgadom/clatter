@@ -2,4 +2,5 @@ import doctest
 
 
 def test_readme():
-    doctest.testfile('../README.rst')
+    errs, _ = doctest.testfile('../README.rst', report=True)
+    assert not errs
