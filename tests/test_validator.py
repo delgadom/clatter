@@ -145,12 +145,13 @@ def test_skipper():
 
     .. code-block:: bash
 
-        $ blather all # doctest: +SKIP
+        $ nmake all # doctest: +SKIP
+        $ echo 'I made it!'
+        I made it!
 
     '''
 
-    with pytest.raises(ValueError):
-        tester.teststring(noskip)
+    tester.teststring(noskip)
 
 
 def test_string_failure():
