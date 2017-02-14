@@ -189,7 +189,7 @@ Errors are raised when using an application you haven't whitelisted:
 
 Unrecognized commands will raise an error, even if +SKIP is specified
 
-.. doctest's skip directive cannot be provided
+.. doctest's skip here will be interpreted by doctest, not clatter. So we mock the code here.
 
     >>> test_str = r'''
     ...
