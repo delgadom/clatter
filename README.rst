@@ -187,7 +187,7 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
 
-Unrecognized commands will raise an error, even if +SKIP is specified
+Unrecognized commands will not raise an error if +SKIP is specified
 
 .. doctest's skip here will be interpreted by doctest, not clatter. So we mock the code here.
 
