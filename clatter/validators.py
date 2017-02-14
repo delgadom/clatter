@@ -8,9 +8,6 @@ class CommandValidator(object):
 
     def validate(self, command, args, expected, options):
 
-        if (options & doctest.SKIP):
-            return
-
         stdout, stderr = self.run_command(command, args)
 
         checker = doctest.OutputChecker()

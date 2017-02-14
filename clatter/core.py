@@ -91,6 +91,9 @@ class Runner(object):
 
         for command, expected, options in self._parse_cli_statement(command):
 
+            if options & doctest.SKIP:
+                continue
+
             if command[0] not in self.call_engines:
                 raise ValueError(
                     'Command "{}" not allowed. '.format(command[0]) +
