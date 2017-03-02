@@ -293,3 +293,8 @@ Todo
 
 See `issues <https://github.com/delgadom/clatter/issues>`_ to see and add to our todos.
 
+
+
+.. image:: https://badges.gitter.im/clatter-doctest/Lobby.svg
+   :alt: Join the chat at https://gitter.im/clatter-doctest/Lobby
+   :target: https://gitter.im/clatter-doctest/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
