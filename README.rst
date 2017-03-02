@@ -25,6 +25,9 @@ Clatter Command Line Application Tester
 .. image:: https://img.shields.io/pypi/pyversions/clatter.svg
     :target: https://pypi.python.org/pypi/clatter
 
+.. image:: https://badges.gitter.im/clatter-doctest/Lobby.svg
+   :alt: Join the chat at https://gitter.im/clatter-doctest/Lobby
+   :target: https://gitter.im/clatter-doctest/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 clatter is a doctest-style testing tool for command-line applications. It wraps other testing suites and allows them to be tested in docstrings.
 
@@ -294,7 +297,3 @@ Todo
 See `issues <https://github.com/delgadom/clatter/issues>`_ to see and add to our todos.
 
 
-
-.. image:: https://badges.gitter.im/clatter-doctest/Lobby.svg
-   :alt: Join the chat at https://gitter.im/clatter-doctest/Lobby
-   :target: https://gitter.im/clatter-doctest/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
