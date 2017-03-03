@@ -1,6 +1,6 @@
 click==6.7
 Sphinx==1.5.3
-sphinx-rtd-theme==0.2.0
+sphinx-rtd-theme==0.2.2
 jinja2==2.9.5
 pip==9.0.1
 wheel==0.29.0
