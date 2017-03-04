@@ -185,7 +185,7 @@ Errors are raised when using an application you haven't whitelisted:
     ...
     ... '''
 
-    >>> tester.teststring(test_str) # doctest +ELLIPSIS
+    >>> tester.teststring(test_str) # doctest: +ELLIPSIS
     Traceback (most recent call last):
     ...
     ValueError: Command "rm" not allowed. Add command caller to call_engines to whitelist.
