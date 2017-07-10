@@ -82,7 +82,19 @@ class Runner(object):
                 lambda first, second: first + '\n' + second[len(space):],
                 expected.split('\n'))
 
-            yield args, expected, options
+            # split piped operations
+            subcommands = []
+
+            while '|' in args:
+                cut = args.index('|')
+                subcommands.append(args[:cut])
+                args = args[cut+1:]
+
+            subcommands.append(args)
+
+            for cmd in subcommands:
+
+                yield cmd, expected, options
 
     def teststring(self, command):
         '''

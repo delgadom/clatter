@@ -32,7 +32,8 @@ install:
       conda update -q conda;
       conda info -a;
 
-      conda create -q -n clatter python=$TRAVIS_PYTHON_VERSION h5py netCDF4 xarray dask numpy scipy pandas h5py hdf5 numba blaze scipy bottleneck dask;
+      conda create -n clatter python=$TRAVIS_PYTHON_VERSION;
+      conda install -n clatter -y -f requirements_conda.txt;
       source activate clatter;
     fi
   - python setup.py install
@@ -43,18 +44,11 @@ install:
 
 script:
   - export PATH=/home/travis/miniconda/bin:$PATH
-  - export PATH=/home/travis/miniconda1/bin:$PATH
   - export PATH=/home/travis/miniconda2/bin:$PATH
   - export PATH=/home/travis/miniconda3/bin:$PATH
-  - export PATH=/home/travis/miniconda4/bin:$PATH
   - if [[ "$CLATTER_TEST_ENV" == "conda" ]]; then
       source activate clatter;
-
-      if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then 
-        python -m pytest ./clatter ./tests;
-      else
-        python -m pytest ./clatter ./tests --cov=clatter --cov=tests --doctest-modules --cov-report term-missing;
-      fi;
+      python -m pytest;
     else
       if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then 
         tox;
